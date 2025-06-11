@@ -1,0 +1,315 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 6
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ",
+          "mode": "list",
+          "cachedResultName": "Attendance",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        -60
+      ],
+      "id": "9fb9a8e6-30c1-4077-96a8-058ff58f8316",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "tDHqfsJQtOYRHQ4v",
+          "name": "Google Sheets Trigger account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const summary = {};\n\nitems.forEach(item => {\n  const dept = item.json.Department;\n  const status = item.json.Status;\n\n  if (!summary[dept]) {\n    summary[dept] = { Present: 0, Absent: 0, Late: 0, Excused: 0 };\n  }\n\n  summary[dept][status] = (summary[dept][status] || 0) + 1;\n});\n\nreturn Object.entries(summary).map(([dept, stats]) => ({\n  json: {\n    Department: dept,\n    Present: stats.Present,\n    Absent: stats.Absent,\n    Late: stats.Late,\n    Excused: stats.Excused,\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        -60
+      ],
+      "id": "e7e6f545-1b0f-4c2a-b429-33fe3a8d762d",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ",
+          "mode": "list",
+          "cachedResultName": "Attendance",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Dashboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1axkNenQbZDrEd4pJV2MnnwfI872HCpDtJVA-hht62oQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time In",
+              "displayName": "Time In",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time Out",
+              "displayName": "Time Out",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remarks",
+              "displayName": "Remarks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Present",
+              "displayName": "Present",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Absent",
+              "displayName": "Absent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Late",
+              "displayName": "Late",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Excused",
+              "displayName": "Excused",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -40,
+        -180
+      ],
+      "id": "ebc96e31-2ff7-43b9-bde9-e9adf4ac30e4",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LUAShdrY2BkSzEII",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I want to create an attendance dashboard in Google Sheets using n8n. Please help me build a workflow that:\n\n1. Reads employee attendance data from a Google Sheet named \"Attendance\" with these columns: ID, Name, Department, Date, Status.\n2. Filters only the rows where Date equals today's date.\n3. Groups attendance by Department and counts how many are Present, Absent, Late, or Excused.\n4. Writes this summary into another sheet tab called \"Dashboard\" in the same file.\n5. Applies a background color for each department (e.g., CSE = blue, ECE = yellow, MECH = green).\n6. Uses conditional formatting to make Present cells green and Absent cells red in the Dashboard sheet.\n7. Runs this every day automatically using a Cron trigger.\n\nPlease generate the workflow or guide me step-by-step with node names and functions.\n{{ $json['Department'] }}\n{{ $json['Present']}}\n{{ $json['Absent'] }}\n{{ $json['Late'] }}\n{{ $json['Excused'] }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        140,
+        -120
+      ],
+      "id": "1c95283f-be82-4664-8ead-ba531a64dc1e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        500,
+        180
+      ],
+      "id": "640ffbe4-cd02-42d5-ab79-2e0cd8820b13",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "s98erM37lGI3jlLR",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "eeb64781-8540-40c2-9c08-97d7409e25c5",
+  "meta": {
+    "instanceId": "84f54b588d63138a8db0df365b3c3da4b84204e33aa68b6396ff7fb47aa85611"
+  },
+  "id": "XVMhNd8oZmXXv88r",
+  "tags": []
+}
